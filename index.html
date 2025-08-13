@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Madhav Raj - Portfolio</title>
+    <!-- Tailwind CSS from CDN for modern, responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS Animate on Scroll Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+    <!-- Google Font - Inter for a clean, professional look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom CSS to override default Tailwind styles and add animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* A dark, sleek background */
+            color: #e2e8f0; /* Light gray text for contrast */
+            cursor: none; /* Hide default cursor */
+            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+        }
+
+        /* Custom Cursor Style */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background-color: #fbbd23; /* Amber accent color */
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, transform 0.1s;
+            z-index: 1000;
+        }
+
+        /* Hover effect for the custom cursor */
+        .cursor.hover {
+            width: 40px;
+            height: 40px;
+            background-color: #3b82f6; /* Blue accent color on hover */
+        }
+
+        /* Gradient for the main heading */
+        .gradient-text {
+            background: linear-gradient(90deg, #fbbd23, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Active Navigation Link Style */
+        .nav-link.active {
+            color: #fbbd23;
+            border-bottom: 2px solid #fbbd23;
+        }
+
+        /* Single Page App Navigation - Hide inactive sections */
+        .page-section {
+            display: none;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        /* Keyframe animation for the floating effect */
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Floating effect on elements */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        /* Neumorphic/3D card hover effect */
+        .neumorphic-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4), -10px -10px 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .neumorphic-card:hover {
+            transform: scale(1.05);
+            box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.6), -15px -15px 30px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Message box for API response */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            opacity: 0;
+            visibility: hidden;
+            background-color: #2d3748;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .message-box.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .message-box-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body class="selection:bg-amber-500 selection:text-white">
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-gray-900 bg-opacity-80 backdrop-blur-sm shadow-xl">
+        <nav class="container mx-auto p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-amber-500">MR</h1>
+            <div class="flex gap-4 overflow-x-auto whitespace-nowrap">
+                <a href="#hero" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="hero">Home</a>
+                <a href="#about" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="about">About</a>
+                <a href="#experience" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="experience">Experience</a>
+                <a href="#projects" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="projects">Projects</a>
+                <a href="#certifications" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="certifications">Certifications</a>
+                <a href="#skills" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="skills">Skills</a>
+                <a href="#contact" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="mt-20">
+        <!-- Home/Hero Section -->
+        <section id="hero" class="page-section active h-screen flex flex-col justify-center items-center text-center px-4 md:px-0">
+            <div data-aos="zoom-in" data-aos-duration="1000" class="floating">
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4">
+                    Hi, I'm <span class="gradient-text">Madhav Raj</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 font-light mb-8" data-aos="fade-up" data-aos-delay="200">
+                    B.Tech in CSE (Data Science) | Passionate Developer & Researcher
+                </p>
+                <a href="resume.pdf" class="btn bg-amber-500 text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-amber-400 transition-all duration-300 transform hover:scale-105" data-aos="fade-up" data-aos-delay="400" download>
+                    Download Resume (PDF)
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="page-section container mx-auto py-20 px-4 md:px-0">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right" data-aos-duration="800">
+                    <h2 class="text-4xl font-bold text-white mb-6 border-b-4 border-amber-500 inline-block pb-1">About Me</h2>
+                    <p id="about-text-1" class="text-lg text-gray-400 leading-relaxed mb-6">
+                        I am a Data Science undergraduate with a CGPA of 7.52 at Dr. B. C. Roy Engineering College. My academic journey has allowed me to work on a diverse range of projects, from gesture-controlled wheelchairs to advanced machine learning models.
+                    </p>
+                    <p id="about-text-2" class="text-lg text-gray-400 leading-relaxed mb-6">
+                        I am skilled in Python, Java, and C, with a strong foundation in web development using HTML/CSS/JavaScript. My experience extends to tools like Git, Google Cloud Console, and various AI frameworks. I thrive on building interactive applications and staying at the forefront of cutting-edge technology.
+                    </p>
+                    <button id="about-summary-btn" class="mt-6 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300 gemini-btn" data-feature="about-summary">
+                        ✨ Summarize My Bio
+                    </button>
+                    <h3 class="text-3xl font-bold text-white mt-8 mb-4 border-b-2 border-amber-500 inline-block pb-1">Personal Skills & Hobbies</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-400 text-lg">
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>Agility & Adaptability</li>
+                            <li>Team Collaboration</li>
+                            <li>Attention to Detail</li>
+                            <li>Critical Thinking</li>
+                        </ul>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>Finance and Investment</li>
+                            <li>Reading Business Articles</li>
+                            <li>Exploring Tech Trends</li>
+                            <li>Basketball, Photography, Travelling</li>
+                        </ul>
+                    </div>
+                </div>
+                <div data-aos="fade-left" data-aos-duration="800">
+                    <h3 class="text-3xl font-bold text-white mb-4 border-b-2 border-amber-500 inline-block pb-1">Education</h3>
+                    <ul class="space-y-4 text-gray-400 text-lg">
+                        <li data-aos="fade-up" data-aos-delay="100">
+                            <strong class="text-white">2022-Present:</strong> B.Tech CSE (Data Science), Dr. B.C. Roy Engg. College, Durgapur<br>
+                            <span class="text-sm">CGPA: 7.52/10 (upto 6th Sem)</span>
+                        </li>
+                        <li data-aos="fade-up" data-aos-delay="200">
+                            <strong class="text-white">2019-2021:</strong> Senior Secondary (XII), P. C. High School, Samastipur (CBSE)<br>
+                            <span class="text-sm">Percentage: 85.6 %</span>
+                        </li>
+                        <li data-aos="fade-up" data-aos-delay="300">
+                            <strong class="text-white">2019:</strong> Secondary (X), Sri Prakash Synergy School, Peddapuram (CBSE)<br>
+                            <span class="text-sm">Percentage: 87.8 %</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Experience Section -->
+        <section id="experience" class="page-section container mx-auto py-20 px-4 md:px-0">
+            <h2 class="text-4xl font-bold text-white mb-12 text-center border-b-4 border-amber-500 inline-block pb-1" data-aos="fade-down" data-aos-duration="800">Experience & Leadership</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Internship Card -->
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-right">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-briefcase text-3xl text-amber-500 mr-4"></i>
+                        <h3 class="text-2xl font-bold text-amber-400">Packaged App Development Associate</h3>
+                    </div>
+                    <p class="text-gray-300"><strong>Accenture</strong> | May-July 2025</p>
+                    <ul class="list-disc list-inside mt-4 text-gray-400 space-y-2">
+                        <li>Developed and maintained enterprise-level software solutions using Flask and React.</li>
+                        <li>Mitigated SQL injection vulnerabilities and secured API endpoints.</li>
+                        <li>Integrated Microsoft Authentication Library (MSAL) for token-based authorization.</li>
+                        <li>Collaborated with cross-functional teams and streamlined CI/CD pipelines.</li>
+                    </ul>
+                </div>
+                <!-- Management Experience Card -->
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-left">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-users-gear text-3xl text-amber-500 mr-4"></i>
+                        <h3 class="text-2xl font-bold text-amber-400">Management & Coordination</h3>
+                    </div>
+                    <ul class="list-disc list-inside mt-4 text-gray-400 space-y-2">
+                        <li><strong>Training and Placement Coordinator</strong> (2023-Present), CSE (Data Science)</li>
+                        <li>Led the team for planning Teachers’ Day celebration (2023).</li>
+                        <li>Organized a college-level Basketball Bonanza tournament (2023).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Projects Section -->
+        <section id="projects" class="page-section container mx-auto py-20 px-4 md:px-0">
+            <h2 class="text-4xl font-bold text-white mb-12 text-center border-b-4 border-amber-500 inline-block pb-1" data-aos="fade-down" data-aos-duration="800">Projects & Internships</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project Card 1 -->
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-wheelchair text-3xl text-amber-500 mr-4"></i>
+                        <h3 class="text-2xl font-bold text-amber-400 project-title">Gesture Control Wheelchair</h3>
+                    </div>
+                    <p class="text-gray-400 project-description">Developed a gesture-controlled wheelchair to enhance mobility for physically challenged individuals.</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="project-details">
+                        ✨ Generate Project Details
+                    </button>
+                </div>
+                <!-- Project Card 2 -->
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-thermometer-half text-3xl text-amber-500 mr-4"></i>
+                        <h3 class="text-2xl font-bold text-amber-400 project-title">Real-Time Temp & Humidity Monitoring App</h3>
+                    </div>
+                    <p class="text-gray-400 project-description">Built a mobile app with MIT App Inventor for real-time temperature and humidity monitoring.</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="project-details">
+                        ✨ Generate Project Details
+                    </button>
+                </div>
+                <!-- Project Card 3 -->
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-heart-pulse text-3xl text-amber-500 mr-4"></i>
+                        <h3 class="text-2xl font-bold text-amber-400 project-title">Diabetes Prediction Model</h3>
+                    </div>
+                    <p class="text-gray-400 project-description">Implemented a machine learning model to predict diabetes, including data preprocessing and model evaluation.</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="project-details">
+                        ✨ Generate Project Details
+                    </button>
+                </div>
+                <!-- Project Card 4 -->
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-wind text-3xl text-amber-500 mr-4"></i>
+                        <h3 class="text-2xl font-bold text-amber-400 project-title">I-PolluSense Mobile App</h3>
+                    </div>
+                    <p class="text-gray-400 project-description">Developed an app for real-time air & noise pollution monitoring with smart alerts and data analytics.</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="project-details">
+                        ✨ Generate Project Details
+                    </button>
+                </div>
+                <!-- Project Card 5 -->
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-users text-3xl text-amber-500 mr-4"></i>
+                        <h3 class="text-2xl font-bold text-amber-400 project-title">Instant Social Space (Web App)</h3>
+                    </div>
+                    <p class="text-gray-400 project-description">A real-time social networking web app with instant messaging, interactive feeds, using TypeScript and modern JS frameworks.</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="project-details">
+                        ✨ Generate Project Details
+                    </button>
+                </div>
+                <!-- Project Card 6 -->
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="500">
+                    <div class="flex items-center mb-4">
+                        <i class="fa-solid fa-blog text-3xl text-amber-500 mr-4"></i>
+                        <h3 class="text-2xl font-bold text-amber-400 project-title">Personal Blogging Platform (WordPress)</h3>
+                    </div>
+                    <p class="text-gray-400 project-description">Curated a personal blog on psychology and personal growth. Wrote articles like "Changing the Mindset" and implemented responsive design.</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="project-details">
+                        ✨ Generate Project Details
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- New Certifications Section -->
+        <section id="certifications" class="page-section container mx-auto py-20 px-4 md:px-0">
+            <h2 class="text-4xl font-bold text-white mb-12 text-center border-b-4 border-amber-500 inline-block pb-1" data-aos="fade-down" data-aos-duration="800">Certifications & Training</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Certification Card -->
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up">
+                    <i class="fa-solid fa-certificate text-3xl text-amber-500 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-amber-400">Introduction to Machine Learning</h3>
+                    <p class="text-gray-400">NPTEL Certification (March-May 2024)</p>
+                </div>
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fa-solid fa-microchip text-3xl text-amber-500 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-amber-400">Data Analytics with Python</h3>
+                    <p class="text-gray-400">NPTEL Certification (January-April 2024)</p>
+                </div>
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fa-solid fa-laptop-code text-3xl text-amber-500 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-amber-400">HTML Certification</h3>
+                    <p class="text-gray-400">Spoken Tutorial, IIT Bombay (2024)</p>
+                </div>
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fa-solid fa-code text-3xl text-amber-500 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-amber-400">Python Certification</h3>
+                    <p class="text-gray-400">Spoken Tutorial, IIT Bombay (2024)</p>
+                </div>
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fa-solid fa-code-branch text-3xl text-amber-500 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-amber-400">Java Certification</h3>
+                    <p class="text-gray-400">Spoken Tutorial, IIT Bombay (2024)</p>
+                </div>
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="500">
+                    <i class="fa-solid fa-cubes text-3xl text-amber-500 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-amber-400">Drupal Certification</h3>
+                    <p class="text-gray-400">Spoken Tutorial, IIT Bombay (2024)</p>
+                </div>
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="600">
+                    <i class="fa-solid fa-user-secret text-3xl text-amber-500 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-amber-400">Ethical Hacking Training</h3>
+                    <p class="text-gray-400">Indian School of Ethical Hacking (Jul-Sep 2023)</p>
+                </div>
+                <div class="neumorphic-card p-6 rounded-xl bg-gray-800" data-aos="fade-up" data-aos-delay="700">
+                    <i class="fa-solid fa-network-wired text-3xl text-amber-500 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-amber-400">Networking Training</h3>
+                    <p class="text-gray-400">Indian School of Ethical Hacking (March-Oct 2023)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="page-section container mx-auto py-20 px-4 md:px-0">
+            <h2 class="text-4xl font-bold text-white mb-12 text-center border-b-4 border-amber-500 inline-block pb-1" data-aos="fade-down" data-aos-duration="800">Skills & Technologies</h2>
+            <div class="flex flex-wrap justify-center gap-6">
+                <!-- Skill Box 1 -->
+                <div class="skill-box neumorphic-card p-6 rounded-xl bg-gray-800 text-center" data-aos="zoom-in" data-aos-delay="0">
+                    <i class="fa-solid fa-laptop-code text-5xl text-amber-500 mb-4"></i>
+                    <h4 class="text-2xl font-bold text-amber-400 mb-2 skill-name">Programming</h4>
+                    <p class="text-gray-400 skill-list">Python, Java, C</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="skill-details">
+                        ✨ Learn More
+                    </button>
+                </div>
+                <!-- Skill Box 2 -->
+                <div class="skill-box neumorphic-card p-6 rounded-xl bg-gray-800 text-center" data-aos="zoom-in" data-aos-delay="100">
+                    <i class="fa-solid fa-globe text-5xl text-amber-500 mb-4"></i>
+                    <h4 class="text-2xl font-bold text-amber-400 mb-2 skill-name">Web Dev</h4>
+                    <p class="text-gray-400 skill-list">HTML5, CSS3, JavaScript, PHP</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="skill-details">
+                        ✨ Learn More
+                    </button>
+                </div>
+                <!-- Skill Box 3 -->
+                <div class="skill-box neumorphic-card p-6 rounded-xl bg-gray-800 text-center" data-aos="zoom-in" data-aos-delay="200">
+                    <i class="fa-solid fa-database text-5xl text-amber-500 mb-4"></i>
+                    <h4 class="text-2xl font-bold text-amber-400 mb-2 skill-name">Database & Backend</h4>
+                    <p class="text-gray-400 skill-list">MySQL, Firebase, MongoDB, DBMS</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="skill-details">
+                        ✨ Learn More
+                    </button>
+                </div>
+                <!-- Skill Box 4 -->
+                <div class="skill-box neumorphic-card p-6 rounded-xl bg-gray-800 text-center" data-aos="zoom-in" data-aos-delay="300">
+                    <i class="fa-solid fa-cloud text-5xl text-amber-500 mb-4"></i>
+                    <h4 class="text-2xl font-bold text-amber-400 mb-2 skill-name">Cloud & AI</h4>
+                    <p class="text-gray-400 skill-list">Google Cloud, Vertex AI, ChatGPT</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="skill-details">
+                        ✨ Learn More
+                    </button>
+                </div>
+                <!-- Skill Box 5 -->
+                <div class="skill-box neumorphic-card p-6 rounded-xl bg-gray-800 text-center" data-aos="zoom-in" data-aos-delay="400">
+                    <i class="fa-solid fa-briefcase text-5xl text-amber-500 mb-4"></i>
+                    <h4 class="text-2xl font-bold text-amber-400 mb-2 skill-name">Tools & Productivity</h4>
+                    <p class="text-gray-400 skill-list">VS Code, Git, MS Office, LaTeX</p>
+                    <button class="gemini-btn mt-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="skill-details">
+                        ✨ Learn More
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Publications Section -->
+        <section id="publications" class="page-section container mx-auto py-20 px-4 md:px-0">
+            <h2 class="text-4xl font-bold text-white mb-12 text-center border-b-4 border-amber-500 inline-block pb-1" data-aos="fade-down" data-aos-duration="800">Publications</h2>
+            <div class="neumorphic-card p-8 md:p-12 rounded-xl bg-gray-800 max-w-3xl mx-auto" data-aos="fade-up">
+                <h3 class="text-2xl font-bold text-amber-400 mb-2">"The Role of Consciousness and Neural Impulses in Enhancing Therapeutic Interventions"</h3>
+                <p class="text-gray-400 mb-4 italic">Research paper presented at an academic conference.</p>
+                <p class="text-gray-300 leading-relaxed">
+                    This research explores the use of neuroimaging technologies like EEG and fMRI to personalize therapy for conditions such as depression, PTSD, and Parkinson’s. It outlines potential applications and future directions in the field.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="page-section container mx-auto py-20 px-4 md:px-0">
+            <h2 class="text-4xl font-bold text-white mb-12 text-center border-b-4 border-amber-500 inline-block pb-1" data-aos="fade-down" data-aos-duration="800">Contact</h2>
+            <div class="neumorphic-card p-8 md:p-12 rounded-xl bg-gray-800 max-w-2xl mx-auto text-center" data-aos="fade-up" data-aos-delay="200">
+                <p class="text-lg md:text-xl text-gray-400 mb-6">
+                    Feel free to reach out to me for collaborations, job opportunities, or just to say hello!
+                </p>
+                <div class="flex flex-col items-center space-y-6">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-envelope text-2xl text-amber-400" aria-hidden="true"></i>
+                        <a href="mailto:raj.madhav2004@gmail.com" class="text-lg text-white hover:underline">raj.madhav2004@gmail.com</a>
+                    </div>
+                    <div class="flex space-x-6 mt-4">
+                        <a href="https://github.com/Madhav-Raj" target="_blank" rel="noopener noreferrer" class="text-white hover:text-amber-400 transition-colors">
+                            <i class="fa-brands fa-github text-4xl" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/madhavraj" target="_blank" rel="noopener noreferrer" class="text-white hover:text-amber-400 transition-colors">
+                            <i class="fa-brands fa-linkedin text-4xl" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal/Message Box for AI response -->
+    <div class="message-box-overlay hidden" onclick="hideMessageBox()"></div>
+    <div class="message-box hidden" id="messageBox">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-2xl font-bold text-amber-400" id="messageBoxTitle"></h3>
+            <button class="text-gray-400 hover:text-white" onclick="hideMessageBox()">&times;</button>
+        </div>
+        <pre class="text-gray-300 whitespace-pre-wrap" id="messageBoxContent"></pre>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 text-gray-500">
+        <p>&copy; 2025 Madhav Raj. All rights reserved.</p>
+    </footer>
+
+    <!-- JS Scripts -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Custom JavaScript for the single-page application and animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const cursor = document.querySelector('.cursor');
+            const hoverElements = document.querySelectorAll('a, button, .neumorphic-card');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.page-section');
+            const geminiButtons = document.querySelectorAll('.gemini-btn');
+            const aboutSummaryBtn = document.getElementById('about-summary-btn');
+            const emailDraftBtn = document.getElementById('email-draft-btn');
+            const messageBox = document.getElementById('messageBox');
+            const messageBoxOverlay = document.querySelector('.message-box-overlay');
+            const messageBoxTitle = document.getElementById('messageBoxTitle');
+            const messageBoxContent = document.getElementById('messageBoxContent');
+            const emailPromptTextarea = document.getElementById('email-prompt');
+            const geminiModel = 'gemini-2.5-flash-preview-05-20';
+
+            // --- Initialize AOS ---
+            if (typeof AOS !== 'undefined') {
+                AOS.init();
+            }
+
+            // --- Custom Cursor Logic ---
+            document.addEventListener('mousemove', e => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseover', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseout', () => cursor.classList.remove('hover'));
+            });
+
+            // --- Single-Page Navigation Logic ---
+            const showSection = (targetId) => {
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                    // Reset AOS for the new section
+                    AOS.refreshHard();
+                }
+            };
+
+            const setActiveLink = (currentSectionId) => {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-target') === currentSectionId) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+
+            // Intersection Observer to highlight the active link on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setActiveLink(entry.target.id);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-target');
+                    showSection(targetId);
+                    setActiveLink(targetId);
+                });
+            });
+
+            // Initially show the hero section and set the active link
+            showSection('hero');
+            setActiveLink('hero');
+
+            // --- Gemini API Integration ---
+            const showMessageBox = (title, content) => {
+                messageBoxTitle.textContent = title;
+                messageBoxContent.textContent = content;
+                messageBox.classList.remove('hidden');
+                messageBox.classList.add('visible');
+                messageBoxOverlay.classList.remove('hidden');
+            }
+
+            window.hideMessageBox = () => {
+                messageBox.classList.remove('visible');
+                messageBox.classList.add('hidden');
+                messageBoxOverlay.classList.add('hidden');
+            }
+
+            const callGeminiAPI = async (prompt) => {
+                let attempts = 0;
+                const maxAttempts = 3;
+                while (attempts < maxAttempts) {
+                    try {
+                        const payload = {
+                            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+                        };
+                        const apiKey = ''; // This will be provided by the runtime
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
+
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(payload),
+                        });
+
+                        const result = await response.json();
+                        if (result.candidates && result.candidates.length > 0) {
+                            return result.candidates[0].content.parts[0].text;
+                        } else {
+                            throw new Error('No candidates found in the response.');
+                        }
+                    } catch (error) {
+                        console.error('API call failed:', error);
+                        attempts++;
+                        if (attempts < maxAttempts) {
+                            const delay = Math.pow(2, attempts) * 1000; // Exponential backoff
+                            console.log(`Retrying in ${delay}ms...`);
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                        }
+                    }
+                }
+                return 'Sorry, I couldn\'t generate a detailed description at this time. Please try again later.';
+            };
+            
+            geminiButtons.forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    const feature = e.target.getAttribute('data-feature');
+                    let prompt = '';
+                    let title = '';
+
+                    // Show loading message in the modal
+                    showMessageBox('Loading...', 'Generating content with Gemini...');
+
+                    if (feature === 'project-details') {
+                        const projectCard = e.target.closest('.neumorphic-card');
+                        title = projectCard.querySelector('.project-title').textContent;
+                        const description = projectCard.querySelector('.project-description').textContent;
+
+                        prompt = `Based on the following project title and a short description, write a more detailed and engaging 3-4 sentence description:
+                        Title: ${title}
+                        Short Description: ${description}
+                        Detailed Description:`;
+                    } else if (feature === 'about-summary') {
+                        title = 'About Me Summary';
+                        const aboutText1 = document.getElementById('about-text-1').textContent;
+                        const aboutText2 = document.getElementById('about-text-2').textContent;
+                        const fullText = aboutText1 + ' ' + aboutText2;
+
+                        prompt = `Summarize the following text about a student named Madhav Raj in 1-2 sentences:
+                        ${fullText}`;
+                    } else if (feature === 'skill-details') {
+                        const skillBox = e.target.closest('.skill-box');
+                        title = skillBox.querySelector('.skill-name').textContent + ' Details';
+                        const skillList = skillBox.querySelector('.skill-list').textContent;
+
+                        prompt = `Explain the importance and relevance of the following skills for a computer science student. The skills are: ${skillList}.`;
+                    } else if (feature === 'email-draft') {
+                        title = 'Generated Email Draft';
+                        const userPrompt = emailPromptTextarea.value || 'Draft a professional email to a recruiter.';
+
+                        prompt = `Draft a professional email based on the following request: "${userPrompt}"`;
+                    }
+
+                    const generatedText = await callGeminiAPI(prompt);
+                    
+                    // Display the generated text in the modal
+                    showMessageBox(title, generatedText);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
