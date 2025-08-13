@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- three.js for 3D animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         /* Custom CSS to override default Tailwind styles and add animations */
         body {
@@ -70,13 +72,13 @@
         /* Keyframe animation for the floating effect */
         @keyframes floating {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
         }
 
         /* Floating effect on elements */
         .floating {
-            animation: floating 3s ease-in-out infinite;
+            animation: floating 4s ease-in-out infinite;
         }
         
         /* Neumorphic/3D card hover effect */
@@ -86,7 +88,7 @@
         }
 
         .neumorphic-card:hover {
-            transform: scale(1.05);
+            transform: scale(1.05) perspective(1000px) rotateX(2deg) rotateY(2deg);
             box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.6), -15px -15px 30px rgba(255, 255, 255, 0.1);
         }
         
@@ -125,9 +127,30 @@
             z-index: 1000;
             display: none;
         }
+
+        /* 3D Canvas Styling */
+        #three-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2; /* Increased opacity for a more vibrant effect */
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* Image grid styling */
+        .image-grid-container {
+            position: relative;
+            min-height: 400px; /* Ensure space for the loader */
+        }
     </style>
 </head>
 <body class="selection:bg-amber-500 selection:text-white">
+
+    <!-- 3D Canvas for Hero Section -->
+    <canvas id="three-canvas"></canvas>
 
     <!-- Custom Cursor -->
     <div class="cursor"></div>
@@ -143,6 +166,7 @@
                 <a href="#projects" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="projects">Projects</a>
                 <a href="#certifications" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="certifications">Certifications</a>
                 <a href="#skills" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="skills">Skills</a>
+                <a href="#showcase" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="showcase">Showcase</a>
                 <a href="#contact" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="contact">Contact</a>
             </div>
         </nav>
@@ -150,8 +174,8 @@
 
     <main class="mt-20">
         <!-- Home/Hero Section -->
-        <section id="hero" class="page-section active min-h-screen flex items-center justify-center text-center px-4 md:px-0">
-            <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 py-20">
+        <section id="hero" class="page-section active min-h-screen flex items-center justify-center text-center px-4 md:px-0 relative overflow-hidden">
+            <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 py-20 relative z-10">
                 <!-- Text Content -->
                 <div data-aos="zoom-in" data-aos-duration="1000" class="floating order-2 lg:order-1 text-center lg:text-left">
                     <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4">
@@ -439,6 +463,27 @@
             </div>
         </section>
 
+        <!-- Creative Showcase Section -->
+        <section id="showcase" class="page-section container mx-auto py-20 px-4 md:px-0">
+            <h2 class="text-4xl font-bold text-white mb-12 text-center border-b-4 border-amber-500 inline-block pb-1" data-aos="fade-down" data-aos-duration="800">Creative Showcase</h2>
+            <p class="text-center text-gray-400 max-w-2xl mx-auto mb-8" data-aos="fade-up">
+                Explore a gallery of AI-generated images that reflect modern technological themes, including cybersecurity, IoT, app development, and more. Click the button to generate a new set of images.
+            </p>
+            <div class="text-center mb-8" data-aos="fade-up">
+                <button id="generate-images-btn" class="px-6 py-3 bg-blue-500 text-white rounded-full font-bold shadow-lg hover:bg-blue-600 transition-colors duration-300">
+                    ✨ Generate New Images
+                </button>
+            </div>
+            <div id="image-grid-container" class="image-grid-container relative">
+                <div id="image-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Images will be dynamically loaded here -->
+                </div>
+                <div id="loader" class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-70 rounded-xl hidden">
+                    <div class="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-amber-500"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact Section -->
         <section id="contact" class="page-section container mx-auto py-20 px-4 md:px-0">
             <h2 class="text-4xl font-bold text-white mb-12 text-center border-b-4 border-amber-500 inline-block pb-1" data-aos="fade-down" data-aos-duration="800">Contact</h2>
@@ -460,6 +505,18 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- New Gemini-powered Email Draft Feature -->
+                <div class="mt-12 w-full text-left" data-aos="fade-up" data-aos-delay="400">
+                    <h3 class="text-2xl font-bold text-white mb-4">✨ Draft an Email</h3>
+                    <p class="text-gray-400 mb-4">
+                        Enter a brief description of the email you want to send and let Gemini draft it for you.
+                    </p>
+                    <textarea id="email-prompt" class="w-full h-32 p-4 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" placeholder="e.g., Draft an email to a recruiter for a junior developer position." ></textarea>
+                    <button id="email-draft-btn" class="gemini-btn mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-feature="email-draft">
+                        ✨ Generate Email Draft
+                    </button>
+                </div>
             </div>
         </section>
     </main>
@@ -469,9 +526,9 @@
     <div class="message-box hidden" id="messageBox">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-2xl font-bold text-amber-400" id="messageBoxTitle"></h3>
-            <button class="text-gray-400 hover:text-white" onclick="hideMessageBox()">&times;</button>
+            <pre class="text-gray-300 whitespace-pre-wrap" id="messageBoxContent"></pre>
         </div>
-        <pre class="text-gray-300 whitespace-pre-wrap" id="messageBoxContent"></pre>
+        <button class="text-gray-400 hover:text-white absolute top-4 right-4" onclick="hideMessageBox()">&times;</button>
     </div>
 
     <!-- Footer -->
@@ -490,12 +547,14 @@
             const sections = document.querySelectorAll('.page-section');
             const geminiButtons = document.querySelectorAll('.gemini-btn');
             const aboutSummaryBtn = document.getElementById('about-summary-btn');
-            const emailDraftBtn = document.getElementById('email-draft-btn');
+            const emailPromptTextarea = document.getElementById('email-prompt');
             const messageBox = document.getElementById('messageBox');
             const messageBoxOverlay = document.querySelector('.message-box-overlay');
             const messageBoxTitle = document.getElementById('messageBoxTitle');
             const messageBoxContent = document.getElementById('messageBoxContent');
-            const emailPromptTextarea = document.getElementById('email-prompt');
+            const generateImagesBtn = document.getElementById('generate-images-btn');
+            const imageGrid = document.getElementById('image-grid');
+            const loader = document.getElementById('loader');
             const geminiModel = 'gemini-2.5-flash-preview-05-20';
 
             // --- Initialize AOS ---
@@ -649,8 +708,13 @@
                         prompt = `Explain the importance and relevance of the following skills for a computer science student. The skills are: ${skillList}.`;
                     } else if (feature === 'email-draft') {
                         title = 'Generated Email Draft';
-                        const userPrompt = emailPromptTextarea.value || 'Draft a professional email to a recruiter.';
+                        const userPrompt = emailPromptTextarea.value.trim() || 'Draft a professional email to a recruiter.';
 
+                        if (!userPrompt) {
+                            showMessageBox('Error', 'Please enter a prompt to draft the email.');
+                            return;
+                        }
+                        
                         prompt = `Draft a professional email based on the following request: "${userPrompt}"`;
                     }
 
@@ -660,7 +724,246 @@
                     showMessageBox(title, generatedText);
                 });
             });
+
+            // --- Image Generation Logic ---
+            const imagePrompts = [
+                'Futuristic dashboard for cyber security monitoring, abstract, digital art, highly detailed, neon colors, 4k',
+                'Modern smart home with interconnected IoT devices, clean aesthetic, realistic, vibrant colors, 4k',
+                'Mobile app development workflow with wireframes, code snippets, and UI designs, flat design, colorful, 4k',
+                'Immersive fantasy video game world, epic landscape, vibrant colors, detailed, digital painting, 4k',
+                'Abstract representation of a blockchain network, interconnected glowing nodes, digital art, dark background, 4k',
+                'AI and machine learning concepts visualized with neural networks and data points, futuristic, digital art, 4k'
+            ];
+            
+            const generateImages = async () => {
+                imageGrid.innerHTML = '';
+                loader.classList.remove('hidden');
+
+                const generatedImageUrls = [];
+                const maxAttempts = 3;
+                const model = 'imagen-3.0-generate-002';
+
+                for (const prompt of imagePrompts) {
+                    let imageFound = false;
+                    let attempts = 0;
+                    while (attempts < maxAttempts && !imageFound) {
+                        try {
+                            const payload = { instances: { prompt: prompt }, parameters: { "sampleCount": 1 } };
+                            const apiKey = ''; // Provided by runtime
+                            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:predict?key=${apiKey}`;
+                            
+                            const response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`API returned an error: ${response.status} ${response.statusText}`);
+                            }
+                            
+                            const result = await response.json();
+                            if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                                const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                                generatedImageUrls.push(imageUrl);
+                                imageFound = true;
+                            } else {
+                                console.error('Image generation failed for prompt:', prompt, result);
+                                throw new Error('No valid image data in response.');
+                            }
+                        } catch (error) {
+                            console.error('Image generation API call failed:', error);
+                            attempts++;
+                            if (attempts >= maxAttempts) {
+                                console.error(`Max attempts reached for prompt: ${prompt}`);
+                                generatedImageUrls.push('https://placehold.co/600x400/4a5568/e2e8f0?text=Error');
+                            } else {
+                                const delay = Math.pow(2, attempts) * 1000;
+                                console.log(`Retrying image generation in ${delay}ms...`);
+                                await new Promise(resolve => setTimeout(resolve, delay));
+                            }
+                        }
+                    }
+                }
+
+                loader.classList.add('hidden');
+                
+                generatedImageUrls.forEach((url, index) => {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'neumorphic-card p-4 rounded-xl bg-gray-800 transform transition-transform duration-300 hover:scale-105';
+                    imgDiv.setAttribute('data-aos', 'zoom-in');
+                    imgDiv.setAttribute('data-aos-delay', index * 100);
+
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.alt = `Generated image for prompt: ${imagePrompts[index]}`;
+                    img.className = 'w-full h-auto rounded-lg object-cover';
+
+                    imgDiv.appendChild(img);
+                    imageGrid.appendChild(imgDiv);
+                });
+
+                AOS.refresh();
+            };
+
+            generateImagesBtn.addEventListener('click', generateImages);
+            // Generate images on initial page load
+            generateImages();
         });
+
+        // --- three.js 3D Animation Logic (Mobile/App Development Visualizer) ---
+        window.onload = function() {
+            const canvas = document.getElementById('three-canvas');
+            const renderer = new THREE.WebGLRenderer({
+                canvas,
+                alpha: true
+            });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 25;
+
+            // Define a vibrant color palette
+            const colors = [0x4299e1, 0xf6e05e, 0xfbbd23, 0xf56565, 0x81e6d9];
+
+            // A glowing material for the lines
+            const lineMaterial = new THREE.LineBasicMaterial({
+                color: 0x81e6d9,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            // Create objects representing mobile phones and app icons
+            const objects = [];
+            const createObject = (type) => {
+                let geometry;
+                let material;
+
+                if (type === 'phone') {
+                    // A rounded box for a phone
+                    geometry = new THREE.BoxGeometry(2, 4, 0.2);
+                    material = new THREE.MeshBasicMaterial({
+                        color: 0x4a5568,
+                        metalness: 0.8,
+                        roughness: 0.5
+                    });
+                } else if (type === 'icon') {
+                    // A smaller, glowing cube for an app icon
+                    const color = new THREE.Color(colors[Math.floor(Math.random() * colors.length)]);
+                    geometry = new THREE.BoxGeometry(0.8, 0.8, 0.2);
+                    material = new THREE.MeshBasicMaterial({
+                        color: color,
+                        transparent: true,
+                        opacity: 1,
+                        blending: THREE.AdditiveBlending
+                    });
+                } else if (type === 'codeblock') {
+                    // A flat, glowing rectangle for a code block
+                    const color = new THREE.Color(colors[Math.floor(Math.random() * colors.length)]);
+                    geometry = new THREE.BoxGeometry(Math.random() * 2 + 1, 0.3, 0.1);
+                    material = new THREE.MeshBasicMaterial({
+                        color: color,
+                        transparent: true,
+                        opacity: 0.9,
+                        blending: THREE.AdditiveBlending
+                    });
+                }
+
+                const object = new THREE.Mesh(geometry, material);
+                
+                object.position.x = (Math.random() - 0.5) * 40;
+                object.position.y = (Math.random() - 0.5) * 30;
+                object.position.z = (Math.random() - 0.5) * 60;
+
+                object.rotation.x = Math.random() * Math.PI;
+                object.rotation.y = Math.random() * Math.PI;
+                object.rotationSpeed = new THREE.Vector3(
+                    Math.random() * 0.005,
+                    Math.random() * 0.005,
+                    Math.random() * 0.005
+                );
+                
+                objects.push(object);
+                scene.add(object);
+            };
+
+            // Create a mix of phones, icons, and code blocks
+            for (let i = 0; i < 5; i++) createObject('phone');
+            for (let i = 0; i < 20; i++) createObject('icon');
+            for (let i = 0; i < 30; i++) createObject('codeblock');
+
+
+            // Create connecting lines between objects
+            const lines = [];
+            const maxConnections = 2;
+            for (let i = 0; i < objects.length; i++) {
+                for (let j = i + 1; j < objects.length; j++) {
+                    const obj1 = objects[i];
+                    const obj2 = objects[j];
+                    if (obj1.position.distanceTo(obj2.position) < 10) {
+                        const points = [];
+                        points.push(obj1.position);
+                        points.push(obj2.position);
+                        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                        const line = new THREE.Line(geometry, lineMaterial);
+                        scene.add(line);
+                        lines.push(line);
+                    }
+                }
+            }
+
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetX = 0;
+            let targetY = 0;
+
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - windowHalfX);
+                mouseY = (e.clientY - windowHalfY);
+            });
+
+            // Animate loop
+            const animationLoop = () => {
+                requestAnimationFrame(animationLoop);
+                
+                // Animate the camera based on mouse position
+                targetX = mouseX * 0.0001;
+                targetY = mouseY * 0.0001;
+                camera.position.x += (targetX - camera.position.x) * 0.05;
+                camera.position.y += (-targetY - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
+
+                // Animate objects and lines
+                objects.forEach(obj => {
+                    obj.rotation.x += obj.rotationSpeed.x;
+                    obj.rotation.y += obj.rotationSpeed.y;
+                    obj.rotation.z += obj.rotationSpeed.z;
+
+                    // Make objects float subtly
+                    obj.position.y += Math.sin(Date.now() * 0.001 + obj.position.x) * 0.005;
+                });
+                
+                renderer.render(scene, camera);
+            };
+
+            // Responsive design for the canvas
+            window.addEventListener('resize', () => {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                renderer.setSize(width, height);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+            });
+
+            // Start the animation
+            animationLoop();
+        };
     </script>
 </body>
 </html>
