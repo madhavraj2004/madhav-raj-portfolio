@@ -167,6 +167,7 @@
                 <a href="#certifications" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="certifications">Certifications</a>
                 <a href="#skills" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="skills">Skills</a>
                 <a href="#showcase" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="showcase">Showcase</a>
+                <a href="#freelance" class="nav-link text-white hover:text-cyan-400 transition-colors duration-300 font-medium" data-target="freelance">Freelance</a>
                 <a href="#contact" class="nav-link text-white hover:text-amber-400 transition-colors duration-300 font-medium" data-target="contact">Contact</a>
             </div>
         </nav>
@@ -483,7 +484,36 @@
                 </div>
             </div>
         </section>
+<!-- Freelance Section -->
+        <section id="freelance" class="page-section container mx-auto py-20 px-4 md:px-0">
+            <h2 class="text-4xl font-bold text-white mb-12 text-center border-b-4 border-cyan-500 inline-block pb-1" data-aos="fade-down" data-aos-duration="800">Freelance Solutions</h2>
+            <p class="text-lg text-gray-400 text-center mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                I offer a range of freelance services, from building custom websites to developing smart IoT solutions. Select a category below to get started on your project idea!
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Freelance Service Card: Websites & Apps -->
+                <div class="card p-8 bg-gray-800" data-aos="zoom-in-up" data-aos-delay="300">
+                    <h3 class="text-3xl font-bold text-white mb-4">Websites & Apps</h3>
+                    <p class="text-gray-400 mb-6">
+                        From dynamic web applications to mobile-friendly websites, I can build a custom solution tailored to your needs.
+                    </p>
+                    <button class="freelance-category-btn w-full px-4 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-category="Website/App Development">
+                        <i class="fa-solid fa-code mr-2"></i> Inquire About Websites & Apps
+                    </button>
+                </div>
 
+                <!-- Freelance Service Card: IoT & Tech Solutions -->
+                <div class="card p-8 bg-gray-800" data-aos="zoom-in-up" data-aos-delay="400">
+                    <h3 class="text-3xl font-bold text-white mb-4">IoT & Tech Solutions</h3>
+                    <p class="text-gray-400 mb-6">
+                        Need a custom IoT device or a technical solution? I can help you design, build, and deploy smart hardware and software.
+                    </p>
+                    <button class="freelance-category-btn w-full px-4 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300" data-category="IoT/Tech Solution">
+                        <i class="fa-solid fa-microchip mr-2"></i> Inquire About IoT & Tech
+                    </button>
+                </div>
+            </div>
+        </section>
         <!-- Contact Section -->
         <section id="contact" class="page-section container mx-auto py-20 px-4 md:px-0">
             <h2 class="text-4xl font-bold text-white mb-12 text-center border-b-4 border-amber-500 inline-block pb-1" data-aos="fade-down" data-aos-duration="800">Contact</h2>
@@ -546,6 +576,8 @@
             const navLinks = document.querySelectorAll('.nav-link');
             const sections = document.querySelectorAll('.page-section');
             const geminiButtons = document.querySelectorAll('.gemini-btn');
+            const emailDraftBtn = document.getElementById('email-draft-btn');
+            const freelanceCategoryBtns = document.querySelectorAll('.freelance-category-btn');
             const aboutSummaryBtn = document.getElementById('about-summary-btn');
             const emailPromptTextarea = document.getElementById('email-prompt');
             const messageBox = document.getElementById('messageBox');
@@ -620,7 +652,19 @@
             // Initially show the hero section and set the active link
             showSection('hero');
             setActiveLink('hero');
-
+            // --- Freelance Button Logic ---
+            freelanceButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.getAttribute('data-category');
+                    const targetSection = document.getElementById('contact');
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                        // Pre-fill the email prompt
+                        emailPromptTextarea.value = `Hello, I am interested in a freelance project for a ${category}. My idea is...`;
+                        emailPromptTextarea.focus();
+                    }
+                });
+            });
             // --- Gemini API Integration ---
             const showMessageBox = (title, content) => {
                 messageBoxTitle.textContent = title;
@@ -967,7 +1011,6 @@
     </script>
 </body>
 </html>
-
 
 
 
