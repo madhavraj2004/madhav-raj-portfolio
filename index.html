@@ -150,17 +150,24 @@
 
     <main class="mt-20">
         <!-- Home/Hero Section -->
-        <section id="hero" class="page-section active h-screen flex flex-col justify-center items-center text-center px-4 md:px-0">
-            <div data-aos="zoom-in" data-aos-duration="1000" class="floating">
-                <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4">
-                    Hi, I'm <span class="gradient-text">Madhav Raj</span>
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-400 font-light mb-8" data-aos="fade-up" data-aos-delay="200">
-                    B.Tech in CSE (Data Science) | Passionate Developer & Researcher
-                </p>
-                <a href="resume.pdf" class="btn bg-amber-500 text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-amber-400 transition-all duration-300 transform hover:scale-105" data-aos="fade-up" data-aos-delay="400" download>
-                    Download Resume (PDF)
-                </a>
+        <section id="hero" class="page-section active min-h-screen flex items-center justify-center text-center px-4 md:px-0">
+            <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 py-20">
+                <!-- Text Content -->
+                <div data-aos="zoom-in" data-aos-duration="1000" class="floating order-2 lg:order-1 text-center lg:text-left">
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4">
+                        Hi, I'm <span class="gradient-text">Madhav Raj</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-400 font-light mb-8" data-aos="fade-up" data-aos-delay="200">
+                        B.Tech in CSE (Data Science) | Passionate Developer & Researcher
+                    </p>
+                    <a href="resume.pdf" class="btn bg-amber-500 text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-amber-400 transition-all duration-300 transform hover:scale-105" data-aos="fade-up" data-aos-delay="400" download>
+                        Download Resume (PDF)
+                    </a>
+                </div>
+                <!-- Image Placeholder -->
+                <div class="order-1 lg:order-2 flex justify-center lg:justify-end" data-aos="fade-left" data-aos-duration="1000">
+                    <img src="https://placehold.co/400x400/1a202c/e2e8f0?text=Your+Photo" alt="Madhav Raj's Photo" class="w-64 h-64 md:w-96 md:h-96 rounded-full object-cover border-4 border-amber-500 shadow-2xl transition-transform duration-300 hover:scale-105" />
+                </div>
             </div>
         </section>
 
